@@ -5,6 +5,13 @@ require "active_support/cache"
 require "active_support/cache/redis_cache_store"
 require_relative "../behaviors"
 
+if ENV["REDIS"] == "ruby"
+  puts "Using the pure-Ruby Redis driver instead of Hiredis"
+
+  Redis::Connection.drivers.clear
+  Redis::Connection.drivers.append(Redis::Connection::Ruby)
+end
+
 module ActiveSupport::Cache::RedisCacheStoreTests
   class LookupTest < ActiveSupport::TestCase
     test "may be looked up as :redis_cache_store" do

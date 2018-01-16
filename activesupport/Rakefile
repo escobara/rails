@@ -20,4 +20,10 @@ namespace :test do
       sh(Gem.ruby, "-w", "-Ilib:test", file)
     end || raise("Failures")
   end
+
+  namespace :cache do
+    task :redis do
+      sh(Gem.ruby, "-w", "-Ilib:test", "test/cache/stores/redis_cache_store_test.rb") || raise("Failures")
+    end
+  end
 end

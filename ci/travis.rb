@@ -78,7 +78,7 @@ class Build
       end
       tasks
     else
-      ["test", ("isolated" if isolated?), ("integration" if integration?), ("ujs" if ujs?)].compact.join(":")
+      ["test", ("isolated" if isolated?), ("integration" if integration?), ("ujs" if ujs?), ("cache:#{adapter}" if cache?)].compact.join(":")
     end
   end
 
@@ -103,6 +103,10 @@ class Build
 
   def ujs?
     component.split(":").last == "ujs"
+  end
+
+  def cache?
+    component.split(":").second == "cache"
   end
 
   def isolated?
@@ -167,6 +171,7 @@ ENV["GEM"].split(",").each do |gem|
     next if gem == "guides" && isolated
     next if gem == "av:ujs" && isolated
     next if gem == "ast" && isolated
+    next if gem.start_with?("as:cache:") && isolated
 
     build = Build.new(gem, isolated: isolated)
     results[build.key] = build.run!

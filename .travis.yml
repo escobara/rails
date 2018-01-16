@@ -70,6 +70,10 @@ matrix:
   include:
     - rvm: 2.5.0
       env: "GEM=av:ujs"
+    - rvm: 2.5.0
+      env: "GEM=as:cache:redis REDIS=ruby"
+      services:
+        - redis-server
     - rvm: 2.2.8
       env: "GEM=aj:integration"
       services:
